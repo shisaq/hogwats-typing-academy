@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { sortUserIntoHouse, SortingResult } from '../services/geminiService';
+import { sortUserIntoHouse, SortingResult } from '../services/gameContentService';
 import { House } from '../types';
 import { Sparkles, Wand2, Check, Loader2 } from 'lucide-react';
 import { soundEffects } from '../services/soundEffects';

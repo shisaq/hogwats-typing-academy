@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { GameState, House, WordChallenge, GameStatus } from '../types';
-import { generateChallenges, getSnapeVoice } from '../services/geminiService';
+import { generateChallenges, getSnapeVoice } from '../services/gameContentService';
 import { soundEffects } from '../services/soundEffects';
 import VirtualKeyboard from './VirtualKeyboard';
 import { RotateCcw, Award, Sparkles, Volume2 } from 'lucide-react';
