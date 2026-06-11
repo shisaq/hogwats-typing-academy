@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { GameState, House, GameStatus } from './types';
+import { GameState, House, GameStatus, WordPracticeStats } from './types';
 import SortingHat from './components/SortingHat';
 import TypingGame from './components/TypingGame';
 import UserManager from './components/UserManager';
+import Spellbook from './components/Spellbook';
 import * as storageService from './services/storageService';
+import { CurriculumStats, getCurriculumStats, getLevelInfo, TOTAL_LEVELS } from './services/gameContentService';
 import { soundEffects } from './services/soundEffects';
-import { Volume2, VolumeX, RotateCcw, LogOut, Users, Sparkles } from 'lucide-react';
+import { BookOpen, Volume2, VolumeX, RotateCcw, LogOut, Users, Sparkles } from 'lucide-react';
 
 const App: React.FC = () => {
   const [house, setHouse] = useState<House>(House.Unsorted);
@@ -15,6 +17,10 @@ const App: React.FC = () => {
   const [currentUsername, setCurrentUsername] = useState<string | null>(null);
   const [showUserManager, setShowUserManager] = useState(false);
   const [gameState, setGameState] = useState<GameState | null>(null);
+  const [learningStats, setLearningStats] = useState<CurriculumStats>(() => getCurriculumStats());
+  const [wordStats, setWordStats] = useState<Record<string, WordPracticeStats>>({});
+  const [graduated, setGraduated] = useState<boolean>(false);
+  const [showSpellbook, setShowSpellbook] = useState(false);
 
   const loadUserData = () => {
     const username = storageService.getCurrentUser();
@@ -23,10 +29,16 @@ const App: React.FC = () => {
     if (username) {
       const progress = storageService.getProgress();
       setHouse(progress.house);
-      setMaxLevel(progress.maxLevel);
+      setMaxLevel(Math.min(progress.maxLevel, TOTAL_LEVELS));
+      setLearningStats(getCurriculumStats(progress.wordStats));
+      setWordStats(progress.wordStats);
+      setGraduated(progress.graduated);
     } else {
       setHouse(House.Unsorted);
       setMaxLevel(1);
+      setLearningStats(getCurriculumStats());
+      setWordStats({});
+      setGraduated(false);
       setShowUserManager(true);
     }
   };
@@ -62,6 +74,7 @@ const App: React.FC = () => {
     }
     soundEffects.playButtonClick();
     soundEffects.playLevelStart();
+    setShowSpellbook(false);
     setStatus(GameStatus.Playing);
   };
 
@@ -74,10 +87,17 @@ const App: React.FC = () => {
 
   const handleGameEnd = (finalState: GameState) => {
     setGameState(finalState);
-    if (finalState.level > maxLevel) {
+    if (finalState.isGraduated) {
+      setMaxLevel(TOTAL_LEVELS);
+      setGraduated(true);
+      storageService.saveProgress({ maxLevel: TOTAL_LEVELS, graduated: true });
+    } else if (finalState.level > maxLevel) {
       setMaxLevel(finalState.level);
       storageService.saveProgress({ maxLevel: finalState.level });
     }
+    const progress = storageService.getProgress();
+    setLearningStats(getCurriculumStats(progress.wordStats));
+    setWordStats(progress.wordStats);
     setStatus(GameStatus.Results);
   };
 
@@ -93,6 +113,10 @@ const App: React.FC = () => {
       storageService.clearProgress();
       setHouse(House.Unsorted);
       setMaxLevel(1);
+      setLearningStats(getCurriculumStats());
+      setWordStats({});
+      setGraduated(false);
+      setShowSpellbook(false);
       setGameState(null);
       setStatus(GameStatus.Menu);
       soundEffects.playNotification();
@@ -117,6 +141,10 @@ const App: React.FC = () => {
     setCurrentUsername(null);
     setHouse(House.Unsorted);
     setMaxLevel(1);
+    setLearningStats(getCurriculumStats());
+    setWordStats({});
+    setGraduated(false);
+    setShowSpellbook(false);
     setStatus(GameStatus.Menu);
     setShowUserManager(true);
   };
@@ -130,6 +158,8 @@ const App: React.FC = () => {
       default: return { color: '#adb5bd', icon: '❓' };
     }
   };
+
+  const currentLesson = getLevelInfo(maxLevel);
 
   return (
     <div className="app-container">
@@ -202,17 +232,28 @@ const App: React.FC = () => {
             onUserChange={() => {
               loadUserData();
               setShowUserManager(false);
+              setShowSpellbook(false);
             }}
           />
         ) : (
           <>
+            {showSpellbook && house !== House.Unsorted && (
+              <Spellbook
+                wordStats={wordStats}
+                onBack={() => {
+                  soundEffects.playButtonClick();
+                  setShowSpellbook(false);
+                }}
+              />
+            )}
+
             {status === GameStatus.Menu && house === House.Unsorted && (
               <div className="float-animation">
                 <SortingHat onSorted={handleSorted} />
               </div>
             )}
 
-            {status === GameStatus.Menu && house !== House.Unsorted && (
+            {status === GameStatus.Menu && house !== House.Unsorted && !showSpellbook && (
               <div className="ancient-card max-w-md mx-auto p-8 text-center space-y-6 float-animation">
                 <div className="flex items-center justify-center gap-2 mb-4">
                   <Sparkles className="text-amber-600" size={24} />
@@ -222,15 +263,48 @@ const App: React.FC = () => {
                 </div>
 
                 <div className="p-6 rounded bg-gradient-to-b from-amber-50 to-amber-100/50 border-2 border-ink-brown/20">
-                  <p className="text-sm text-ink-brown/60 uppercase tracking-wider mb-2 font-heading">Current Level</p>
+                  <p className="text-sm text-ink-brown/60 uppercase tracking-wider mb-2 font-heading">
+                    {graduated ? 'Academy Complete' : 'Current Lesson'}
+                  </p>
                   <p className="text-5xl font-display text-ink-brown">{maxLevel}</p>
+                  <p className="mt-2 text-sm text-ink-brown/70">
+                    Year {currentLesson.year} · {currentLesson.title}
+                  </p>
+                </div>
+
+                <div className="grid grid-cols-2 gap-3 text-left">
+                  <div className="p-4 rounded bg-emerald-50 border border-emerald-800/20">
+                    <p className="text-xs uppercase tracking-wide text-emerald-800/60 font-heading">Practiced</p>
+                    <p className="text-2xl font-display text-emerald-900">
+                      {learningStats.practicedWords}/{learningStats.totalWords}
+                    </p>
+                    <p className="text-xs text-emerald-900/60">{learningStats.practicedPercent}% discovered</p>
+                  </div>
+                  <div className="p-4 rounded bg-blue-50 border border-blue-800/20">
+                    <p className="text-xs uppercase tracking-wide text-blue-800/60 font-heading">Mastered</p>
+                    <p className="text-2xl font-display text-blue-900">
+                      {learningStats.masteredWords}/{learningStats.totalWords}
+                    </p>
+                    <p className="text-xs text-blue-900/60">3 clean completions</p>
+                  </div>
                 </div>
 
                 <button
                   onClick={startGame}
                   className="ancient-btn w-full"
                 >
-                  <span>Enter Classroom</span>
+                  <span>{graduated ? 'Practice Final Challenge' : 'Enter Classroom'}</span>
+                </button>
+
+                <button
+                  onClick={() => {
+                    soundEffects.playButtonClick();
+                    setShowSpellbook(true);
+                  }}
+                  className="ancient-btn ancient-btn-seal w-full"
+                >
+                  <BookOpen size={18} />
+                  <span>Open Spellbook</span>
                 </button>
               </div>
             )}
@@ -246,8 +320,14 @@ const App: React.FC = () => {
             {status === GameStatus.Results && gameState && (
               <div className="ancient-card max-w-lg mx-auto p-10 text-center space-y-6 float-animation">
                 <h2 className="text-4xl font-display text-ink-brown mb-4">
-                  Class Dismissed!
+                  {gameState.isGraduated ? 'Academy Complete!' : 'Class Dismissed!'}
                 </h2>
+
+                <p className="text-ink-brown/70">
+                  {gameState.isGraduated
+                    ? 'You completed the final challenge. Keep practicing to master every word.'
+                    : `Next lesson unlocked: Year ${getLevelInfo(gameState.level).year} · ${getLevelInfo(gameState.level).title}`}
+                </p>
 
                 <div className="grid grid-cols-2 gap-4">
                   <div className="p-6 rounded bg-gradient-to-br from-green-50 to-emerald-100/50 border-2 border-green-800/20">
@@ -265,6 +345,9 @@ const App: React.FC = () => {
                   <p className="font-display text-xl text-amber-800">
                     {gameState.accuracy > 90 ? "Outstanding! ✨" : gameState.accuracy > 70 ? "Exceeds Expectations" : "Acceptable"}
                   </p>
+                  <p className="mt-2 text-sm text-amber-900/60">
+                    Practiced {learningStats.practicedWords} of {learningStats.totalWords} words · Mastered {learningStats.masteredWords}
+                  </p>
                 </div>
 
                 <div className="flex gap-4">
@@ -278,7 +361,7 @@ const App: React.FC = () => {
                     onClick={restartGame}
                     className="ancient-btn ancient-btn-seal flex-1"
                   >
-                    Next Level
+                    {gameState.isGraduated ? 'Practice Again' : 'Next Level'}
                   </button>
                 </div>
               </div>

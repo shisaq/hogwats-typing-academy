@@ -1,10 +1,12 @@
-import { House } from '../types';
+import { House, WordPracticeStats } from '../types';
 
 const STORAGE_KEY = 'hogwarts_typing_academy_v2';
 
 export interface UserProgress {
   house: House;
   maxLevel: number;
+  graduated: boolean;
+  wordStats: Record<string, WordPracticeStats>;
 }
 
 export interface User {
@@ -79,6 +81,19 @@ const saveStorageData = (data: StorageData) => {
   }
 };
 
+const createDefaultProgress = (): UserProgress => ({
+  house: House.Unsorted,
+  maxLevel: 1,
+  graduated: false,
+  wordStats: {}
+});
+
+const normalizeProgress = (progress?: Partial<UserProgress>): UserProgress => ({
+  ...createDefaultProgress(),
+  ...progress,
+  wordStats: progress?.wordStats || {}
+});
+
 // ==================== 用户管理 ====================
 
 export const createUser = (username: string): boolean => {
@@ -90,10 +105,7 @@ export const createUser = (username: string): boolean => {
 
   const newUser: User = {
     username: trimmedUsername,
-    progress: {
-      house: House.Unsorted,
-      maxLevel: 1
-    },
+    progress: createDefaultProgress(),
     createdAt: new Date().toISOString()
   };
 
@@ -138,6 +150,20 @@ export const getAllUsers = (): string[] => {
   return Object.keys(data.users);
 };
 
+export const getUsers = (): Record<string, User> => {
+  const data = getStorageData();
+  const users: Record<string, User> = {};
+
+  for (const [username, user] of Object.entries(data.users)) {
+    users[username] = {
+      ...user,
+      progress: normalizeProgress(user.progress)
+    };
+  }
+
+  return users;
+};
+
 export const userExists = (username: string): boolean => {
   const data = getStorageData();
   return !!data.users[username];
@@ -150,21 +176,15 @@ export const getProgress = (): UserProgress => {
 
   if (!data.currentUser) {
     // 没有当前用户，返回默认值
-    return {
-      house: House.Unsorted,
-      maxLevel: 1
-    };
+    return createDefaultProgress();
   }
 
   const user = data.users[data.currentUser];
   if (!user) {
-    return {
-      house: House.Unsorted,
-      maxLevel: 1
-    };
+    return createDefaultProgress();
   }
 
-  return user.progress;
+  return normalizeProgress(user.progress);
 };
 
 export const saveProgress = (progress: Partial<UserProgress>) => {
@@ -181,7 +201,49 @@ export const saveProgress = (progress: Partial<UserProgress>) => {
     return;
   }
 
-  user.progress = { ...user.progress, ...progress };
+  user.progress = normalizeProgress({ ...user.progress, ...progress });
+  saveStorageData(data);
+};
+
+export const recordWordPractice = (wordId: string, word: string, errors: number) => {
+  const data = getStorageData();
+
+  if (!data.currentUser) {
+    console.warn("No current user selected, cannot save word practice");
+    return;
+  }
+
+  const user = data.users[data.currentUser];
+  if (!user) {
+    console.warn("Current user not found, cannot save word practice");
+    return;
+  }
+
+  const progress = normalizeProgress(user.progress);
+  const correctChars = word.length;
+  const totalKeystrokes = correctChars + errors;
+  const accuracy = totalKeystrokes > 0 ? Math.round((correctChars / totalKeystrokes) * 100) : 100;
+  const previous = progress.wordStats[wordId];
+  const completedCount = (previous?.completedCount || 0) + 1;
+  const bestAccuracy = Math.max(previous?.bestAccuracy || 0, accuracy);
+  const mastery =
+    completedCount >= 3 && bestAccuracy >= 95
+      ? 'mastered'
+      : completedCount >= 2
+        ? 'learning'
+        : 'seen';
+
+  progress.wordStats[wordId] = {
+    word,
+    seenCount: (previous?.seenCount || 0) + 1,
+    completedCount,
+    errorCount: (previous?.errorCount || 0) + errors,
+    bestAccuracy,
+    mastery,
+    lastPracticedAt: new Date().toISOString()
+  };
+
+  user.progress = progress;
   saveStorageData(data);
 };
 
@@ -194,10 +256,7 @@ export const clearProgress = () => {
 
   const user = data.users[data.currentUser];
   if (user) {
-    user.progress = {
-      house: House.Unsorted,
-      maxLevel: 1
-    };
+    user.progress = createDefaultProgress();
     saveStorageData(data);
   }
 }

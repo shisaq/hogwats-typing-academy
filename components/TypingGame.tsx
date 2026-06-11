@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { GameState, House, WordChallenge } from '../types';
-import { generateChallenges, getSnapeVoice } from '../services/gameContentService';
+import { generateChallenges, getSnapeVoice, TOTAL_LEVELS } from '../services/gameContentService';
+import * as storageService from '../services/storageService';
 import { soundEffects } from '../services/soundEffects';
 import VirtualKeyboard from './VirtualKeyboard';
 import { BookOpen, Sparkles, Star, Trophy, Volume2 } from 'lucide-react';
@@ -31,6 +32,7 @@ const TypingGame: React.FC<TypingGameProps> = ({ house, onEndGame, initialLevel 
   const inputRef = useRef<HTMLInputElement>(null);
   const startTimeRef = useRef<number | null>(null);
   const errorsRef = useRef<number>(0);
+  const wordErrorsRef = useRef<number>(0);
   const correctCharsRef = useRef<number>(0);
   const voiceSourceRef = useRef<AudioBufferSourceNode | null>(null);
 
@@ -42,6 +44,9 @@ const TypingGame: React.FC<TypingGameProps> = ({ house, onEndGame, initialLevel 
     setUserInput('');
     setCurrentChallengeIndex(0);
     startTimeRef.current = null;
+    errorsRef.current = 0;
+    wordErrorsRef.current = 0;
+    correctCharsRef.current = 0;
     
     // Auto focus
     setTimeout(() => inputRef.current?.focus(), 100);
@@ -121,6 +126,7 @@ const TypingGame: React.FC<TypingGameProps> = ({ house, onEndGame, initialLevel 
     } else {
         // Wrong character typed
         errorsRef.current += 1;
+        wordErrorsRef.current += 1;
         setGameState(prev => ({ ...prev, streak: 0 }));
         soundEffects.playError();
         
@@ -131,6 +137,7 @@ const TypingGame: React.FC<TypingGameProps> = ({ house, onEndGame, initialLevel 
   };
 
   const handleWordComplete = () => {
+    const completedWord = challenges[currentChallengeIndex];
     const newStreak = gameState.streak + 1;
     
     // Play sound based on streak
@@ -148,6 +155,8 @@ const TypingGame: React.FC<TypingGameProps> = ({ house, onEndGame, initialLevel 
     }
     
     const newScore = gameState.score + 10 + (gameState.streak * 2);
+    storageService.recordWordPractice(completedWord.id, completedWord.word, wordErrorsRef.current);
+    wordErrorsRef.current = 0;
     
     setGameState(prev => ({
         ...prev,
@@ -159,11 +168,11 @@ const TypingGame: React.FC<TypingGameProps> = ({ house, onEndGame, initialLevel 
         setCurrentChallengeIndex(prev => prev + 1);
         setUserInput('');
     } else {
-        handleLevelComplete();
+        handleLevelComplete(newScore, newStreak);
     }
   };
 
-  const handleLevelComplete = () => {
+  const handleLevelComplete = (score: number, streak: number) => {
     soundEffects.playLevelWin();
     confetti({
         particleCount: 150,
@@ -177,12 +186,17 @@ const TypingGame: React.FC<TypingGameProps> = ({ house, onEndGame, initialLevel 
     const wpm = Math.round((correctCharsRef.current / 5) / time);
     const totalKeystrokes = correctCharsRef.current + errorsRef.current;
     const accuracy = totalKeystrokes > 0 ? Math.round((correctCharsRef.current / totalKeystrokes) * 100) : 100;
+    const isGraduated = gameState.level >= TOTAL_LEVELS;
 
     const finalState = {
         ...gameState,
-        level: gameState.level + 1,
+        completedLevel: gameState.level,
+        level: isGraduated ? TOTAL_LEVELS : gameState.level + 1,
+        score,
+        streak,
         wpm,
-        accuracy
+        accuracy,
+        isGraduated
     };
 
     // Delay calling onEndGame slightly so the user hears the sound/sees confetti

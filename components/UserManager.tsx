@@ -16,18 +16,7 @@ const UserManager: React.FC<UserManagerProps> = ({ onUserChange }) => {
   const [showCreateForm, setShowCreateForm] = useState(false);
 
   const loadUsers = () => {
-    const allUsernames = storage.getAllUsers();
-    const usersMap: Record<string, User> = {};
-
-    const storageData = localStorage.getItem('hogwarts_typing_academy_v2');
-    if (storageData) {
-      const parsed = JSON.parse(storageData);
-      if (parsed.users) {
-        Object.assign(usersMap, parsed.users);
-      }
-    }
-
-    setUsers(usersMap);
+    setUsers(storage.getUsers());
     setCurrentUser(storage.getCurrentUser());
   };
 
@@ -185,7 +174,7 @@ const UserManager: React.FC<UserManagerProps> = ({ onUserChange }) => {
                     )}
                   </p>
                   <p className="text-xs text-gray-500">
-                    Level {user.progress.maxLevel} • {user.progress.house !== House.Unsorted ? user.progress.house : 'Unsorted'}
+                    {user.progress.graduated ? 'Graduated' : `Level ${user.progress.maxLevel}`} • {user.progress.house !== House.Unsorted ? user.progress.house : 'Unsorted'}
                   </p>
                 </div>
               </div>

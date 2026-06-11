@@ -14,7 +14,7 @@ She loves the magical world of Hogwarts, so I turned typing practice into a smal
 4. Type each word exactly as shown.
 5. Use the hint button when you need help.
 6. Finish the level to see your score, speed, accuracy, and streak.
-7. Keep practicing to unlock harder word lists.
+7. Keep practicing to unlock harder lessons and master more words.
 
 The game saves progress locally in the browser, so each player can come back and continue from their own level.
 
@@ -22,7 +22,10 @@ The game saves progress locally in the browser, so each player can come back and
 
 - Magical academy theme for kids who enjoy Harry Potter style adventures
 - Sorting Hat house assignment
-- Ten levels of typing challenges with increasing difficulty
+- Sixteen lessons across the seven-year story arc, with 128 curated words
+- Per-word practice stats for practiced and mastered vocabulary
+- Spellbook view for browsing lessons, words, hints, and mastery status
+- Graduation state after the final challenge
 - Word hints and voice-style feedback
 - Score, WPM, accuracy, and streak tracking
 - Virtual keyboard display for learning key positions
