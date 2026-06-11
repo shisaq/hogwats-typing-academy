@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
-import { GameState, House, WordChallenge, GameStatus } from '../types';
+import { GameState, House, WordChallenge } from '../types';
 import { generateChallenges, getSnapeVoice } from '../services/gameContentService';
 import { soundEffects } from '../services/soundEffects';
 import VirtualKeyboard from './VirtualKeyboard';
-import { RotateCcw, Award, Sparkles, Volume2 } from 'lucide-react';
+import { BookOpen, Sparkles, Star, Trophy, Volume2 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
 interface TypingGameProps {
@@ -33,17 +33,6 @@ const TypingGame: React.FC<TypingGameProps> = ({ house, onEndGame, initialLevel 
   const errorsRef = useRef<number>(0);
   const correctCharsRef = useRef<number>(0);
   const voiceSourceRef = useRef<AudioBufferSourceNode | null>(null);
-
-  // House color theming
-  const getHouseColor = (h: House) => {
-    switch(h) {
-      case House.Gryffindor: return 'bg-red-800 border-red-950 text-yellow-500';
-      case House.Slytherin: return 'bg-green-800 border-green-950 text-gray-200';
-      case House.Ravenclaw: return 'bg-blue-900 border-blue-950 text-gray-200';
-      case House.Hufflepuff: return 'bg-yellow-600 border-yellow-800 text-black';
-      default: return 'bg-gray-700 border-gray-900 text-white';
-    }
-  };
 
   const loadLevel = useCallback(async () => {
     setLoading(true);
@@ -223,9 +212,11 @@ const TypingGame: React.FC<TypingGameProps> = ({ house, onEndGame, initialLevel 
 
   const currentChallenge = challenges[currentChallengeIndex];
   const nextChar = currentChallenge.word.slice(userInput.length, userInput.length + 1);
+  const progressPercent = Math.round(((currentChallengeIndex + 1) / challenges.length) * 100);
+  const houseName = house === House.Unsorted ? 'New Student' : house;
 
   return (
-    <div className="flex flex-col items-center w-full max-w-4xl mx-auto p-4 magic-cursor">
+    <div className="lesson-shell magic-cursor">
       {/* Floating magical particles */}
       <div className="particle-field">
         <div className="particle"></div>
@@ -236,43 +227,46 @@ const TypingGame: React.FC<TypingGameProps> = ({ house, onEndGame, initialLevel 
       </div>
 
       {/* Header / Stats */}
-      <div className="flex justify-between w-full mb-8 parchment-container p-4 text-black font-magic">
-        <div className="flex items-center gap-2 z-10">
-            <span className="shimmer-text text-xl font-bold">Level {gameState.level}</span>
+      <div className="lesson-topbar">
+        <div className="lesson-level">
+          <BookOpen size={22} />
+          <div>
+            <span>Lesson Level</span>
+            <strong>{gameState.level}</strong>
+          </div>
         </div>
-        <div className="flex items-center gap-4 z-10">
-            <div className="flex flex-col items-center">
-                <span className="text-xs text-gray-600 uppercase tracking-wide">Score</span>
-                <span className="text-xl font-bold text-gray-800">{gameState.score}</span>
-            </div>
-            <div className="flex flex-col items-center transition-all duration-300">
-                <span className="text-xs text-gray-600 uppercase tracking-wide">Streak</span>
-                <span className={`${gameState.streak > 4 ? 'streak-glow' : ''} transition-transform duration-300 text-xl font-bold`}
-                      style={{ color: gameState.streak > 4 ? 'var(--gold-bright)' : 'inherit' }}>
-                    ×{gameState.streak}
-                </span>
-            </div>
+        <div className="lesson-stats">
+          <div className="lesson-stat">
+            <Trophy size={18} />
+            <span>Score</span>
+            <strong>{gameState.score}</strong>
+          </div>
+          <div className="lesson-stat">
+            <Star size={18} />
+            <span>Streak</span>
+            <strong className={gameState.streak > 4 ? 'streak-glow' : ''}>x{gameState.streak}</strong>
+          </div>
         </div>
       </div>
 
       {/* Progress Bar */}
-      <div className="w-full mb-6">
+      <div className="lesson-progress">
         <div className="wand-progress-container">
           <div
             className="wand-progress-fill"
-            style={{ width: `${((currentChallengeIndex + 1) / challenges.length) * 100}%` }}
+            style={{ width: `${progressPercent}%` }}
           >
             <div className="wand-tip"></div>
           </div>
         </div>
-        <div className="flex justify-between mt-2 text-xs text-white/60 font-sans">
+        <div className="progress-caption">
           <span>Word {currentChallengeIndex + 1} of {challenges.length}</span>
-          <span>{Math.round(((currentChallengeIndex + 1) / challenges.length) * 100)}%</span>
+          <span>{progressPercent}%</span>
         </div>
       </div>
 
       {/* Main Game Area */}
-      <div className={`parchment-container relative w-full p-8 md:p-12 transition-all duration-500 ${shake ? 'error-shake error-flash' : ''}`}
+      <div className={`lesson-board ${shake ? 'error-shake error-flash' : ''}`}
            style={{
              borderColor: house === House.Gryffindor ? 'var(--gryffindor-gold)' :
                          house === House.Slytherin ? 'var(--slytherin-silver)' :
@@ -282,71 +276,58 @@ const TypingGame: React.FC<TypingGameProps> = ({ house, onEndGame, initialLevel 
 
         {/* Smoke particles on error */}
         {shake && (
-          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 pointer-events-none">
+          <div className="smoke-wrap">
             <div className="smoke-particle"></div>
             <div className="smoke-particle"></div>
             <div className="smoke-particle"></div>
           </div>
         )}
 
-        {/* Placeholder Image with magical border */}
-        <div className="absolute top-4 right-4 w-20 h-20 rounded-full overflow-hidden border-4 hidden md:block z-10"
-             style={{
-               borderColor: house === House.Gryffindor ? 'var(--gryffindor-gold)' :
-                           house === House.Slytherin ? 'var(--emerald-glow)' :
-                           house === House.Ravenclaw ? 'var(--spell-blue)' :
-                           'var(--gold-shimmer)',
-               boxShadow: `0 0 20px ${house === House.Gryffindor ? 'var(--gryffindor-gold)' :
-                                      house === House.Slytherin ? 'var(--emerald-glow)' :
-                                      house === House.Ravenclaw ? 'var(--spell-blue)' :
-                                      'var(--gold-shimmer)'}`
-             }}>
-            <img
-                src={`https://picsum.photos/seed/${currentChallenge.word}/100/100`}
-                alt="Magic Item"
-                className="w-full h-full object-cover"
-            />
-        </div>
+        <section className="word-stage">
+          <div className="hint-row">
+            <Sparkles size={20} />
+            <p className={isPlayingVoice ? 'shimmer-text' : ''}>{currentChallenge.hint}</p>
+            {isPlayingVoice && <Volume2 size={20} className="voice-icon" />}
+          </div>
 
-        <div className="flex flex-col items-center space-y-6 z-10 relative">
-            <div className="text-center relative">
-                <div className="flex items-center justify-center gap-2 mb-4">
-                    <p className={`text-xl font-magic tracking-wider transition-all duration-300 ${isPlayingVoice ? 'shimmer-text' : 'text-gray-700'}`}
-                       style={{ fontFamily: "'IM Fell English', serif" }}>
-                        {currentChallenge.hint}
-                    </p>
-                    {isPlayingVoice && <Volume2 size={20} className="text-yellow-500 animate-pulse" />}
-                </div>
+          <div className="word-card" aria-label={`Type ${currentChallenge.word}`}>
+            {currentChallenge.word.split('').map((char, idx) => {
+              let classes = 'letter-pending';
+              if (idx < userInput.length) {
+                classes = 'letter-correct';
+              }
+              if (idx === userInput.length) {
+                classes = 'letter-active';
+              }
 
-                <div className="flex text-5xl md:text-7xl font-bold tracking-widest bg-gradient-to-b from-black/5 to-black/10 px-8 py-6 rounded-xl border-2 border-gray-300/50 relative"
-                     style={{ fontFamily: "'MedievalSharp', cursive" }}>
-                    {currentChallenge.word.split('').map((char, idx) => {
-                        let classes = 'text-gray-400/40 transition-all duration-200'; // Not typed yet
-                        if (idx < userInput.length) {
-                          classes = 'letter-correct text-emerald-600'; // Correctly typed
-                        }
-                        if (idx === userInput.length) {
-                          classes = 'letter-active text-amber-600'; // Current cursor
-                        }
+              return (
+                <span key={idx} className={classes}>
+                  {char}
+                  {idx === userInput.length - 1 && idx < userInput.length && (
+                    <span className="sparkle-burst">
+                      <span className="sparkle"></span>
+                      <span className="sparkle"></span>
+                      <span className="sparkle"></span>
+                      <span className="sparkle"></span>
+                      <span className="sparkle"></span>
+                    </span>
+                  )}
+                </span>
+              );
+            })}
+          </div>
 
-                        return (
-                            <span key={idx} className={classes} style={{ position: 'relative' }}>
-                                {char}
-                                {/* Sparkle burst on completed letter */}
-                                {idx === userInput.length - 1 && idx < userInput.length && (
-                                  <span className="sparkle-burst">
-                                    <span className="sparkle"></span>
-                                    <span className="sparkle"></span>
-                                    <span className="sparkle"></span>
-                                    <span className="sparkle"></span>
-                                    <span className="sparkle"></span>
-                                  </span>
-                                )}
-                            </span>
-                        );
-                    })}
-                </div>
-            </div>
+          <div className="helper-strip">
+            <span>Next key</span>
+            <strong>{nextChar === ' ' ? 'Space' : nextChar.toUpperCase()}</strong>
+          </div>
+        </section>
+
+        <aside className="coach-panel">
+          <div className="coach-orb">✨</div>
+          <p className="coach-title">{houseName} practice</p>
+          <p>Keep your eyes on the big word. Your next glowing key is waiting below.</p>
+        </aside>
 
             {/* Hidden Input to capture keystrokes */}
             <input
@@ -372,12 +353,13 @@ const TypingGame: React.FC<TypingGameProps> = ({ house, onEndGame, initialLevel 
                 autoFocus
             />
 
+        <div className="keyboard-zone">
             <VirtualKeyboard activeKey={nextChar} />
         </div>
       </div>
 
-      <p className="mt-8 text-white/60 text-sm font-sans italic">
-        ✨ Keep your eyes on the parchment! True magic flows through focused fingers.
+      <p className="lesson-footer">
+        Type the glowing key, then watch your spell grow stronger.
       </p>
     </div>
   );

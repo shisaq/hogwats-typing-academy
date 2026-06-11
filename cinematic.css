@@ -1,0 +1,159 @@
+/* Final visual layer: cinematic magical academy atmosphere. */
+:root {
+  --cinema-plum: #24123f;
+  --cinema-plum-dark: #13081f;
+  --cinema-violet: #4e287f;
+  --cinema-gold: #f3c75b;
+  --cinema-gold-deep: #b87719;
+  --cinema-parchment: #fbefd3;
+  --cinema-ink: #241a36;
+}
+
+body {
+  color: var(--cinema-ink);
+  background: #130b1e !important;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background: url('/assets/magic-academy-hall.png') center top / cover no-repeat;
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  background:
+    linear-gradient(180deg, rgba(12, 7, 20, 0.22), rgba(12, 7, 20, 0.08) 38%, rgba(12, 7, 20, 0.42)),
+    linear-gradient(90deg, rgba(8, 4, 14, 0.32), transparent 16%, transparent 84%, rgba(8, 4, 14, 0.32)),
+    radial-gradient(ellipse at 50% 110%, rgba(245, 186, 83, 0.18), transparent 38%);
+}
+
+.app-container,
+.academy-nav,
+.academy-content {
+  position: relative;
+}
+
+.app-container,
+.academy-content {
+  z-index: 2;
+}
+
+.academy-content::before {
+  content: '';
+  position: fixed;
+  inset: 76px 0 0;
+  pointer-events: none;
+  z-index: -1;
+  background:
+    linear-gradient(180deg, rgba(19, 11, 30, 0.02), rgba(19, 11, 30, 0.22)),
+    radial-gradient(ellipse at 50% 42%, rgba(255, 231, 168, 0.08), transparent 42%);
+}
+
+.academy-nav {
+  background:
+    linear-gradient(180deg, rgba(48, 24, 82, 0.96), rgba(18, 8, 30, 0.98)),
+    radial-gradient(circle at 20% 0%, rgba(245, 199, 100, 0.2), transparent 28%) !important;
+  border-bottom-color: rgba(243, 199, 91, 0.8) !important;
+}
+
+.nav-logo {
+  color: #ffe08d !important;
+  font-family: 'Cinzel Decorative', 'Cinzel', serif !important;
+  text-shadow: 0 2px 0 rgba(0, 0, 0, 0.36) !important;
+}
+
+.nav-logo-icon {
+  background: linear-gradient(145deg, #ffe08d, #c7831f) !important;
+  border-color: rgba(255, 224, 141, 0.75) !important;
+  box-shadow: 0 0 0 3px rgba(69, 37, 112, 0.75), 0 9px 18px rgba(0, 0, 0, 0.28) !important;
+}
+
+.nav-btn,
+.nav-user {
+  background: linear-gradient(180deg, #fff3d3, #e8cf9a) !important;
+  border-color: rgba(255, 224, 141, 0.52) !important;
+  color: var(--cinema-violet) !important;
+  box-shadow: 0 5px 0 rgba(69, 37, 112, 0.55) !important;
+}
+
+.mystical-card,
+.ancient-card,
+.lesson-level,
+.lesson-stat {
+  background:
+    linear-gradient(180deg, rgba(255, 242, 203, 0.94), rgba(222, 190, 129, 0.91)),
+    radial-gradient(ellipse at 50% 0%, rgba(255, 255, 255, 0.45), transparent 38%) !important;
+  border-color: rgba(244, 199, 91, 0.72) !important;
+  box-shadow:
+    0 28px 70px rgba(5, 2, 10, 0.45),
+    0 0 0 2px rgba(49, 24, 80, 0.32),
+    inset 0 0 0 1px rgba(255, 246, 219, 0.72) !important;
+}
+
+.mystical-card h2,
+.ancient-card h2 {
+  color: var(--cinema-violet) !important;
+}
+
+.lesson-board {
+  background:
+    linear-gradient(180deg, rgba(255, 240, 198, 0.9), rgba(226, 190, 122, 0.84)),
+    radial-gradient(ellipse at 50% 0%, rgba(255, 255, 255, 0.5), transparent 44%) !important;
+  border-color: rgba(244, 199, 91, 0.9) !important;
+  box-shadow:
+    0 34px 86px rgba(5, 2, 10, 0.5),
+    0 0 0 3px rgba(45, 22, 76, 0.36),
+    inset 0 0 0 1px rgba(255, 248, 219, 0.62) !important;
+}
+
+.word-card {
+  background:
+    linear-gradient(180deg, rgba(255, 251, 238, 0.96), rgba(239, 224, 190, 0.94)) !important;
+  border-color: rgba(61, 34, 95, 0.28) !important;
+}
+
+.magic-keyboard {
+  background:
+    linear-gradient(180deg, rgba(54, 35, 28, 0.54), rgba(32, 18, 16, 0.5)) !important;
+  border-color: rgba(244, 199, 91, 0.32) !important;
+}
+
+.magic-key {
+  background: linear-gradient(180deg, #fff6df, #dbc79f) !important;
+  border-color: rgba(64, 43, 24, 0.28) !important;
+}
+
+.magic-key.active {
+  background: linear-gradient(180deg, #ffd96e, #e5a915) !important;
+  box-shadow: 0 2px 0 rgba(88, 48, 0, 0.35), 0 0 0 6px rgba(243, 199, 91, 0.22) !important;
+}
+
+.coach-panel {
+  background:
+    linear-gradient(180deg, rgba(49, 24, 80, 0.88), rgba(21, 10, 35, 0.86)) !important;
+  border-color: rgba(244, 199, 91, 0.42) !important;
+  color: rgba(255, 236, 192, 0.84) !important;
+}
+
+.coach-title {
+  color: #ffe39b !important;
+}
+
+.coach-orb {
+  background: linear-gradient(180deg, #ffe7a6, #c78222) !important;
+  box-shadow: 0 6px 0 rgba(18, 8, 30, 0.45) !important;
+}
+
+.progress-caption,
+.lesson-footer {
+  color: rgba(255, 239, 198, 0.9) !important;
+  text-shadow: 0 2px 6px rgba(5, 2, 10, 0.58);
+}

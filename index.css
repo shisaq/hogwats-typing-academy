@@ -1224,6 +1224,808 @@ body::before {
   }
 }
 
+@media (min-width: 921px) {
+  .academy-nav {
+    height: 58px;
+  }
+
+  .nav-logo-icon {
+    width: 42px;
+    height: 42px;
+    flex-basis: 42px;
+  }
+
+  .nav-btn {
+    width: 42px;
+    height: 42px;
+    flex-basis: 42px;
+  }
+
+  .academy-content {
+    padding-top: 72px;
+    padding-bottom: 24px;
+  }
+
+  .lesson-topbar {
+    align-items: center;
+    margin-bottom: 8px;
+  }
+
+  .lesson-level,
+  .lesson-stat {
+    min-height: 50px;
+    padding: 7px 12px;
+  }
+
+  .lesson-level strong,
+  .lesson-stat strong {
+    font-size: 1.35rem;
+  }
+
+  .lesson-progress {
+    margin-bottom: 8px;
+  }
+
+  .lesson-board {
+    gap: 16px;
+    padding: 14px 18px;
+  }
+
+  .word-stage {
+    min-height: 162px;
+    padding: 4px 18px 8px;
+  }
+
+  .hint-row {
+    min-height: 32px;
+    margin-bottom: 8px;
+  }
+
+  .word-card {
+    width: min(100%, 640px);
+    padding: 12px 20px;
+    font-size: clamp(2.75rem, 5vw, 3.65rem);
+  }
+
+  .helper-strip {
+    margin-top: 8px;
+  }
+
+  .coach-panel {
+    padding: 14px 18px;
+  }
+
+  .magic-keyboard {
+    padding: 10px 12px;
+  }
+
+  .magic-key {
+    width: clamp(36px, 4vw, 48px) !important;
+    height: clamp(36px, 4vw, 48px) !important;
+  }
+
+  .magic-key.space-bar {
+    height: 38px !important;
+  }
+
+  .lesson-footer {
+    margin-top: 10px;
+  }
+}
+
+/* Final override: cinematic magical academy, not cartoon classroom. */
+body {
+  background:
+    linear-gradient(180deg, rgba(12, 7, 20, 0.78) 0%, rgba(12, 7, 20, 0.36) 38%, rgba(12, 7, 20, 0.72) 100%),
+    radial-gradient(ellipse at 50% 18%, rgba(246, 191, 91, 0.16), transparent 34%),
+    url('/assets/magic-academy-hall.png') center top / cover fixed no-repeat,
+    #130b1e !important;
+  color: var(--academy-ink);
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    linear-gradient(90deg, rgba(8, 4, 14, 0.58), transparent 16%, transparent 84%, rgba(8, 4, 14, 0.58)),
+    radial-gradient(ellipse at 50% 110%, rgba(245, 186, 83, 0.32), transparent 38%);
+}
+
+.academy-content::before {
+  content: '';
+  position: fixed;
+  inset: 76px 0 0;
+  pointer-events: none;
+  z-index: -1;
+  background:
+    linear-gradient(180deg, rgba(19, 11, 30, 0.08), rgba(19, 11, 30, 0.54)),
+    radial-gradient(ellipse at 50% 42%, rgba(255, 231, 168, 0.11), transparent 42%);
+}
+
+.academy-nav {
+  background:
+    linear-gradient(180deg, rgba(48, 24, 82, 0.96), rgba(18, 8, 30, 0.98)),
+    radial-gradient(circle at 20% 0%, rgba(245, 199, 100, 0.2), transparent 28%) !important;
+  border-bottom-color: rgba(243, 199, 91, 0.8) !important;
+}
+
+.mystical-card,
+.ancient-card,
+.lesson-level,
+.lesson-stat {
+  background:
+    linear-gradient(180deg, rgba(255, 242, 203, 0.94), rgba(222, 190, 129, 0.91)),
+    radial-gradient(ellipse at 50% 0%, rgba(255, 255, 255, 0.45), transparent 38%) !important;
+  border-color: rgba(244, 199, 91, 0.72) !important;
+  box-shadow:
+    0 28px 70px rgba(5, 2, 10, 0.45),
+    0 0 0 2px rgba(49, 24, 80, 0.32),
+    inset 0 0 0 1px rgba(255, 246, 219, 0.72) !important;
+}
+
+.lesson-board {
+  background:
+    linear-gradient(180deg, rgba(255, 240, 198, 0.9), rgba(226, 190, 122, 0.84)),
+    radial-gradient(ellipse at 50% 0%, rgba(255, 255, 255, 0.5), transparent 44%) !important;
+  border-color: rgba(244, 199, 91, 0.9) !important;
+  box-shadow:
+    0 34px 86px rgba(5, 2, 10, 0.5),
+    0 0 0 3px rgba(45, 22, 76, 0.36),
+    inset 0 0 0 1px rgba(255, 248, 219, 0.62) !important;
+}
+
+.word-card {
+  background:
+    linear-gradient(180deg, rgba(255, 251, 238, 0.96), rgba(239, 224, 190, 0.94)) !important;
+  border-color: rgba(61, 34, 95, 0.28) !important;
+}
+
+.magic-keyboard {
+  background:
+    linear-gradient(180deg, rgba(54, 35, 28, 0.54), rgba(32, 18, 16, 0.5)) !important;
+  border-color: rgba(244, 199, 91, 0.32) !important;
+}
+
+.magic-key {
+  background: linear-gradient(180deg, #fff6df, #dbc79f) !important;
+  border-color: rgba(64, 43, 24, 0.28) !important;
+}
+
+.coach-panel {
+  background:
+    linear-gradient(180deg, rgba(49, 24, 80, 0.88), rgba(21, 10, 35, 0.86)) !important;
+  border-color: rgba(244, 199, 91, 0.42) !important;
+  color: rgba(255, 236, 192, 0.84) !important;
+}
+
+.coach-title {
+  color: #ffe39b !important;
+}
+
+.coach-orb {
+  background: linear-gradient(180deg, #ffe7a6, #c78222) !important;
+  box-shadow: 0 6px 0 rgba(18, 8, 30, 0.45) !important;
+}
+
+.progress-caption,
+.lesson-footer {
+  color: rgba(255, 239, 198, 0.9) !important;
+  text-shadow: 0 2px 6px rgba(5, 2, 10, 0.58);
+}
+
+/* ============================================
+   MAGIC ACADEMY FIDELITY PASS
+   ============================================ */
+:root {
+  --academy-plum: #24123f;
+  --academy-plum-dark: #14091f;
+  --academy-violet: #4e287f;
+  --academy-gold: #f3c75b;
+  --academy-gold-deep: #b87719;
+  --academy-parchment: #fbefd3;
+  --academy-parchment-deep: #ead2a4;
+  --academy-ink: #241a36;
+  --academy-muted: #6f617d;
+  --practice-width: min(820px, 100%);
+}
+
+body {
+  color: var(--academy-ink);
+  background:
+    linear-gradient(180deg, rgba(36, 18, 63, 0.94) 0 64px, transparent 64px),
+    radial-gradient(ellipse at 20% 20%, rgba(255, 255, 255, 0.28), transparent 18%),
+    linear-gradient(180deg, #f4e8ca 0%, #f8eccd 52%, #e7bf78 100%);
+}
+
+body::before {
+  opacity: 0.28;
+  background-image:
+    linear-gradient(90deg, transparent 0 18%, rgba(36, 18, 63, 0.12) 18.2% 18.6%, transparent 19% 81%, rgba(36, 18, 63, 0.12) 81.4% 81.8%, transparent 82%),
+    radial-gradient(2px 2px at 12% 28%, rgba(243, 199, 91, 0.9), transparent),
+    radial-gradient(2px 2px at 88% 42%, rgba(243, 199, 91, 0.8), transparent);
+}
+
+.academy-nav {
+  height: 76px;
+  padding: 0 28px;
+  background: linear-gradient(180deg, #321957 0%, var(--academy-plum-dark) 100%);
+  border-bottom: 3px solid var(--academy-gold-deep);
+  box-shadow: 0 14px 32px rgba(20, 9, 31, 0.28);
+}
+
+.nav-logo {
+  font-family: 'Cinzel Decorative', 'Cinzel', serif;
+  color: #ffe08d;
+  letter-spacing: 0;
+  text-shadow: 0 2px 0 rgba(0, 0, 0, 0.35);
+}
+
+.nav-logo-icon {
+  background: linear-gradient(145deg, #ffe08d, #c7831f);
+  border-color: rgba(255, 224, 141, 0.75);
+  box-shadow: 0 0 0 3px rgba(69, 37, 112, 0.75), 0 9px 18px rgba(0, 0, 0, 0.28);
+}
+
+.nav-btn,
+.nav-user {
+  background: linear-gradient(180deg, #fff3d3, #e8cf9a);
+  border-color: rgba(255, 224, 141, 0.52);
+  color: var(--academy-violet);
+  box-shadow: 0 5px 0 rgba(69, 37, 112, 0.55);
+}
+
+.nav-user {
+  max-width: 280px;
+}
+
+.nav-user > span:not(.nav-user-avatar) {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.academy-content {
+  padding-top: 106px;
+}
+
+.mystical-card.max-w-md,
+.mystical-card.max-w-xl,
+.ancient-card.max-w-md,
+.ancient-card.max-w-lg {
+  width: min(760px, calc(100vw - 72px));
+  max-width: min(760px, calc(100vw - 72px));
+}
+
+.mystical-card {
+  min-height: 520px;
+  padding: clamp(28px, 4vw, 44px);
+  background:
+    linear-gradient(180deg, rgba(255, 247, 222, 0.98), rgba(245, 226, 185, 0.96)),
+    radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.7), transparent 32%);
+  border: 3px solid rgba(121, 82, 28, 0.45);
+  box-shadow: 0 24px 56px rgba(64, 39, 13, 0.23), inset 0 0 0 1px rgba(255, 255, 255, 0.55);
+}
+
+.mystical-card h2,
+.ancient-card h2 {
+  color: var(--academy-violet);
+}
+
+.mystical-card .bg-purple-900\/20 {
+  background: rgba(77, 40, 127, 0.13);
+  border: 2px solid rgba(77, 40, 127, 0.2);
+}
+
+.mystical-card .text-purple-300 {
+  color: var(--academy-violet);
+  font-weight: 800;
+}
+
+.mystical-card .mystical-input,
+.mystical-input {
+  min-height: 58px;
+  background: #fffaf0 !important;
+  color: #241a36 !important;
+  border: 3px solid rgba(77, 40, 127, 0.4) !important;
+  caret-color: var(--academy-violet);
+  font-size: 1.15rem;
+  font-weight: 800;
+}
+
+.mystical-card .mystical-input::placeholder,
+.mystical-input::placeholder {
+  color: rgba(36, 26, 54, 0.48) !important;
+}
+
+.mystical-input::selection,
+.mystical-card .mystical-input::selection {
+  color: #fffaf0;
+  background: var(--academy-violet);
+}
+
+.lesson-shell {
+  width: min(1500px, calc(100vw - 96px));
+}
+
+.lesson-topbar {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+}
+
+.lesson-stats {
+  justify-self: end;
+}
+
+.lesson-level,
+.lesson-stat {
+  background: linear-gradient(180deg, #fff5d8, #ecd5a7);
+  border: 2px solid rgba(121, 82, 28, 0.42);
+}
+
+.lesson-board {
+  grid-template-columns: minmax(760px, 1fr) 320px;
+  align-items: start;
+  min-height: 560px;
+  padding: 28px 34px 34px;
+  background:
+    linear-gradient(180deg, rgba(255, 244, 214, 0.96), rgba(242, 219, 171, 0.93)),
+    radial-gradient(ellipse at 50% 0%, rgba(255, 255, 255, 0.64), transparent 52%);
+  border: 4px solid var(--academy-gold-deep);
+  box-shadow: 0 28px 70px rgba(63, 38, 10, 0.25), inset 0 0 0 2px rgba(255, 247, 222, 0.62);
+}
+
+.word-stage {
+  width: var(--practice-width);
+  justify-self: center;
+  min-height: 236px;
+  padding: 12px 0 18px;
+}
+
+.hint-row {
+  color: var(--academy-violet);
+  font-family: 'Cinzel', serif;
+  font-size: clamp(1.28rem, 1.8vw, 1.75rem);
+}
+
+.word-card {
+  width: 100%;
+  max-width: none;
+  padding: 22px 34px;
+  background: rgba(255, 253, 247, 0.97);
+  border: 4px solid rgba(77, 40, 127, 0.18);
+  box-shadow: inset 0 -6px 0 rgba(77, 40, 127, 0.06), 0 18px 34px rgba(77, 40, 127, 0.14);
+  font-size: clamp(4rem, 5.9vw, 6rem);
+}
+
+.keyboard-zone {
+  grid-column: 1;
+  width: var(--practice-width);
+  justify-self: center;
+}
+
+.magic-keyboard {
+  width: 100%;
+  padding: 24px 28px;
+  background: linear-gradient(180deg, rgba(79, 52, 31, 0.2), rgba(61, 35, 20, 0.15));
+  border: 3px solid rgba(77, 40, 127, 0.22);
+  box-shadow: inset 0 3px 0 rgba(255, 255, 255, 0.38), 0 16px 30px rgba(50, 25, 87, 0.13);
+}
+
+.magic-key {
+  width: clamp(54px, 3.7vw, 68px) !important;
+  height: clamp(54px, 3.7vw, 66px) !important;
+  background: linear-gradient(180deg, #fffaf1, #e7eef9);
+  color: var(--academy-ink);
+  border-color: rgba(36, 26, 54, 0.18);
+  box-shadow: 0 7px 0 rgba(36, 26, 54, 0.25), 0 12px 18px rgba(36, 26, 54, 0.16);
+}
+
+.magic-key.active {
+  background: linear-gradient(180deg, #ffd96e, #e5a915);
+  box-shadow: 0 2px 0 rgba(88, 48, 0, 0.35), 0 0 0 6px rgba(243, 199, 91, 0.22);
+}
+
+.magic-key.space-bar {
+  width: min(460px, 70%) !important;
+  height: 52px !important;
+}
+
+.coach-panel {
+  min-height: 260px;
+  background: linear-gradient(180deg, rgba(224, 245, 255, 0.96), rgba(255, 247, 222, 0.9));
+  border: 3px solid rgba(77, 40, 127, 0.16);
+}
+
+.lesson-footer {
+  color: #4f4160;
+}
+
+@media (min-width: 921px) and (max-height: 820px) {
+  .academy-nav {
+    height: 68px;
+  }
+
+  .academy-content {
+    padding-top: 88px;
+  }
+
+  .lesson-board {
+    min-height: 500px;
+    padding: 20px 28px 26px;
+  }
+
+  .word-stage {
+    min-height: 190px;
+  }
+
+  .word-card {
+    padding: 16px 28px;
+    font-size: clamp(3.5rem, 5vw, 4.8rem);
+  }
+
+  .magic-keyboard {
+    padding: 18px 24px;
+  }
+
+  .magic-key {
+    width: clamp(46px, 3.2vw, 58px) !important;
+    height: clamp(46px, 3.2vw, 56px) !important;
+  }
+
+  .magic-key.space-bar {
+    height: 44px !important;
+  }
+}
+
+@media (max-width: 920px) {
+  .academy-nav {
+    background: linear-gradient(180deg, #321957 0%, var(--academy-plum-dark) 100%);
+  }
+
+  .lesson-shell,
+  .mystical-card.max-w-md,
+  .mystical-card.max-w-xl {
+    width: min(100%, calc(100vw - 24px));
+    max-width: min(100%, calc(100vw - 24px));
+  }
+
+  .lesson-topbar {
+    display: flex;
+  }
+
+  .lesson-board {
+    grid-template-columns: 1fr;
+    min-height: auto;
+    padding: 16px;
+  }
+
+  .word-stage,
+  .keyboard-zone {
+    width: 100%;
+  }
+
+  .keyboard-zone {
+    grid-column: 1;
+  }
+}
+
+@media (max-width: 767px) {
+  .academy-content {
+    padding-top: 126px;
+  }
+
+  .word-card {
+    padding: 14px 10px;
+    font-size: clamp(2.9rem, 13vw, 3.7rem);
+  }
+
+  .magic-keyboard {
+    padding: 8px 6px;
+  }
+
+  .magic-key {
+    width: 28px !important;
+    height: 34px !important;
+  }
+}
+
+@media (min-width: 921px) {
+  .word-stage,
+  .keyboard-zone {
+    grid-column: 1 !important;
+    width: min(820px, 100%) !important;
+    max-width: 820px !important;
+    justify-self: center !important;
+  }
+
+  .word-stage {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  .word-card,
+  .magic-keyboard {
+    width: 100% !important;
+    max-width: none !important;
+  }
+}
+
+/* ============================================
+   CINEMATIC WIZARDING SCHOOL BACKDROP
+   ============================================ */
+body {
+  background:
+    linear-gradient(180deg, rgba(12, 7, 20, 0.76) 0%, rgba(12, 7, 20, 0.34) 38%, rgba(12, 7, 20, 0.68) 100%),
+    radial-gradient(ellipse at 50% 18%, rgba(246, 191, 91, 0.16), transparent 34%),
+    url('/assets/magic-academy-hall.png') center top / cover fixed no-repeat,
+    #130b1e;
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    linear-gradient(90deg, rgba(8, 4, 14, 0.58), transparent 16%, transparent 84%, rgba(8, 4, 14, 0.58)),
+    radial-gradient(ellipse at 50% 110%, rgba(245, 186, 83, 0.32), transparent 38%);
+}
+
+.academy-content {
+  position: relative;
+}
+
+.academy-content::before {
+  content: '';
+  position: fixed;
+  inset: 76px 0 0;
+  pointer-events: none;
+  z-index: -1;
+  background:
+    linear-gradient(180deg, rgba(19, 11, 30, 0.08), rgba(19, 11, 30, 0.54)),
+    radial-gradient(ellipse at 50% 42%, rgba(255, 231, 168, 0.11), transparent 42%);
+}
+
+.academy-nav {
+  background:
+    linear-gradient(180deg, rgba(48, 24, 82, 0.96), rgba(18, 8, 30, 0.98)),
+    radial-gradient(circle at 20% 0%, rgba(245, 199, 100, 0.2), transparent 28%);
+  border-bottom-color: rgba(243, 199, 91, 0.8);
+}
+
+.mystical-card,
+.ancient-card {
+  background:
+    linear-gradient(180deg, rgba(255, 242, 203, 0.94), rgba(222, 190, 129, 0.91)),
+    radial-gradient(ellipse at 50% 0%, rgba(255, 255, 255, 0.45), transparent 38%);
+  border-color: rgba(244, 199, 91, 0.72);
+  box-shadow:
+    0 28px 70px rgba(5, 2, 10, 0.45),
+    0 0 0 2px rgba(49, 24, 80, 0.32),
+    inset 0 0 0 1px rgba(255, 246, 219, 0.72);
+}
+
+.lesson-topbar {
+  filter: drop-shadow(0 16px 26px rgba(5, 2, 10, 0.22));
+}
+
+.lesson-level,
+.lesson-stat {
+  background:
+    linear-gradient(180deg, rgba(255, 240, 199, 0.95), rgba(217, 181, 111, 0.9));
+  border-color: rgba(244, 199, 91, 0.62);
+}
+
+.lesson-board {
+  background:
+    linear-gradient(180deg, rgba(255, 240, 198, 0.9), rgba(226, 190, 122, 0.84)),
+    radial-gradient(ellipse at 50% 0%, rgba(255, 255, 255, 0.5), transparent 44%);
+  border-color: rgba(244, 199, 91, 0.9);
+  box-shadow:
+    0 34px 86px rgba(5, 2, 10, 0.5),
+    0 0 0 3px rgba(45, 22, 76, 0.36),
+    inset 0 0 0 1px rgba(255, 248, 219, 0.62);
+}
+
+.word-card {
+  background:
+    linear-gradient(180deg, rgba(255, 251, 238, 0.96), rgba(239, 224, 190, 0.94));
+  border-color: rgba(61, 34, 95, 0.28);
+}
+
+.magic-keyboard {
+  background:
+    linear-gradient(180deg, rgba(54, 35, 28, 0.54), rgba(32, 18, 16, 0.5));
+  border-color: rgba(244, 199, 91, 0.32);
+}
+
+.magic-key {
+  background: linear-gradient(180deg, #fff6df, #dbc79f);
+  border-color: rgba(64, 43, 24, 0.28);
+}
+
+.coach-panel {
+  background:
+    linear-gradient(180deg, rgba(49, 24, 80, 0.88), rgba(21, 10, 35, 0.86));
+  border-color: rgba(244, 199, 91, 0.42);
+  color: rgba(255, 236, 192, 0.84);
+}
+
+.coach-title {
+  color: #ffe39b;
+}
+
+.coach-orb {
+  background: linear-gradient(180deg, #ffe7a6, #c78222);
+  box-shadow: 0 6px 0 rgba(18, 8, 30, 0.45);
+}
+
+.progress-caption,
+.lesson-footer {
+  color: rgba(255, 239, 198, 0.9);
+  text-shadow: 0 2px 6px rgba(5, 2, 10, 0.58);
+}
+
+@media (min-width: 921px) and (max-height: 760px) {
+  .academy-nav {
+    height: 58px;
+  }
+
+  .academy-content {
+    padding-top: 72px;
+  }
+
+  .lesson-level,
+  .lesson-stat {
+    min-height: 50px;
+    padding: 7px 12px;
+  }
+
+  .lesson-level strong,
+  .lesson-stat strong {
+    font-size: 1.35rem;
+  }
+
+  .lesson-board {
+    padding: 14px 18px;
+  }
+
+  .word-stage {
+    min-height: 162px;
+    padding: 4px 18px 8px;
+  }
+
+  .hint-row {
+    margin-bottom: 8px;
+    font-size: 1.18rem;
+  }
+
+  .word-card {
+    padding: 12px 20px;
+    font-size: clamp(2.75rem, 5vw, 3.65rem);
+  }
+
+  .helper-strip {
+    margin-top: 8px;
+    padding: 7px 14px;
+  }
+
+  .helper-strip strong {
+    padding: 5px 10px;
+  }
+
+  .coach-panel {
+    gap: 8px;
+    padding: 14px;
+    font-size: 0.95rem;
+  }
+
+  .coach-orb {
+    width: 42px;
+    height: 42px;
+    font-size: 1.25rem;
+  }
+
+  .coach-title {
+    font-size: 1.08rem;
+  }
+
+  .magic-keyboard {
+    padding: 10px 12px;
+  }
+
+  .magic-key {
+    width: clamp(36px, 4vw, 48px) !important;
+    height: clamp(36px, 4vw, 48px) !important;
+  }
+
+  .magic-key.space-bar {
+    height: 38px !important;
+  }
+}
+
+@media (min-width: 921px) and (max-height: 760px) {
+  .academy-nav {
+    height: 58px;
+  }
+
+  .academy-content {
+    padding-top: 72px;
+  }
+
+  .lesson-level,
+  .lesson-stat {
+    min-height: 50px;
+    padding: 7px 12px;
+  }
+
+  .lesson-level strong,
+  .lesson-stat strong {
+    font-size: 1.35rem;
+  }
+
+  .lesson-board {
+    padding: 14px 18px;
+  }
+
+  .word-stage {
+    min-height: 162px;
+    padding: 4px 18px 8px;
+  }
+
+  .hint-row {
+    margin-bottom: 8px;
+    font-size: 1.18rem;
+  }
+
+  .word-card {
+    padding: 12px 20px;
+    font-size: clamp(2.75rem, 5vw, 3.65rem);
+  }
+
+  .helper-strip {
+    margin-top: 8px;
+    padding: 7px 14px;
+  }
+
+  .helper-strip strong {
+    padding: 5px 10px;
+  }
+
+  .coach-panel {
+    gap: 8px;
+    padding: 14px;
+    font-size: 0.95rem;
+  }
+
+  .coach-orb {
+    width: 42px;
+    height: 42px;
+    font-size: 1.25rem;
+  }
+
+  .coach-title {
+    font-size: 1.08rem;
+  }
+
+  .magic-keyboard {
+    padding: 10px 12px;
+  }
+
+  .magic-key {
+    width: clamp(36px, 4vw, 48px) !important;
+    height: clamp(36px, 4vw, 48px) !important;
+  }
+
+  .magic-key.space-bar {
+    height: 38px !important;
+  }
+}
+
 /* ============================================
    SCROLLBAR
    ============================================ */
@@ -1387,3 +2189,706 @@ body::before {
    ORIENTATION
    ============================================ */
 .orientation-horizontal { orientation: horizontal; }
+
+/* ============================================
+   CHILD-FRIENDLY CLASSROOM REDESIGN
+   ============================================ */
+:root {
+  --kid-bg-top: #d9f3ff;
+  --kid-bg-mid: #f7eecf;
+  --kid-bg-bottom: #f5c87c;
+  --kid-ink: #2f2545;
+  --kid-muted: #716883;
+  --kid-panel: rgba(255, 252, 239, 0.94);
+  --kid-panel-strong: #fff7dc;
+  --kid-border: #75542a;
+  --kid-gold: #f7bd28;
+  --kid-gold-dark: #b67813;
+  --kid-plum: #5f3e91;
+  --kid-teal: #148c8c;
+  --kid-blue: #397bd3;
+  --kid-green: #1f9d72;
+  --kid-red: #d94c4c;
+  --hufflepuff-primary: #f4c430;
+  --gold-shimmer: #f7bd28;
+  --emerald-glow: #1f9d72;
+  --spell-blue: #397bd3;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Quicksand', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  color: var(--kid-ink);
+  background:
+    radial-gradient(circle at 14% 18%, rgba(255, 255, 255, 0.75) 0 7%, transparent 8%),
+    radial-gradient(circle at 82% 10%, rgba(255, 235, 157, 0.65) 0 6%, transparent 7%),
+    linear-gradient(180deg, var(--kid-bg-top) 0%, var(--kid-bg-mid) 48%, var(--kid-bg-bottom) 100%);
+}
+
+body::before {
+  opacity: 0.45;
+  background-image:
+    radial-gradient(2px 2px at 18% 24%, rgba(255, 196, 46, 0.65), transparent),
+    radial-gradient(2px 2px at 72% 34%, rgba(20, 140, 140, 0.45), transparent),
+    radial-gradient(1px 1px at 44% 68%, rgba(95, 62, 145, 0.4), transparent);
+}
+
+.ancient-bg,
+.magic-embers {
+  display: none;
+}
+
+.academy-nav {
+  height: 76px;
+  padding: 0 28px;
+  background: rgba(255, 250, 229, 0.88);
+  border-bottom: 2px solid rgba(117, 84, 42, 0.28);
+  box-shadow: 0 12px 30px rgba(65, 45, 20, 0.12);
+  backdrop-filter: blur(14px);
+}
+
+.academy-nav::before,
+.academy-nav::after {
+  content: '';
+}
+
+.nav-logo {
+  font-family: 'Quicksand', system-ui, sans-serif;
+  font-size: clamp(1.08rem, 2vw, 1.55rem);
+  color: var(--kid-ink);
+  text-shadow: none;
+}
+
+.nav-logo-icon {
+  width: 48px;
+  height: 48px;
+  flex-basis: 48px;
+  background: linear-gradient(145deg, #ffe070, #f0a92c);
+  border: 2px solid rgba(117, 84, 42, 0.35);
+  box-shadow: 0 8px 18px rgba(183, 120, 19, 0.25);
+  animation: gentleBob 3.5s ease-in-out infinite;
+}
+
+.nav-actions {
+  gap: 0.55rem;
+}
+
+.nav-btn,
+.nav-user {
+  border: 2px solid rgba(95, 62, 145, 0.2);
+  background: #fff7dc;
+  color: var(--kid-plum);
+  box-shadow: 0 5px 0 rgba(95, 62, 145, 0.18);
+}
+
+.nav-btn {
+  width: 46px;
+  height: 46px;
+  flex-basis: 46px;
+  border-radius: 999px;
+}
+
+.nav-btn:hover,
+.nav-user:hover {
+  background: #ffffff;
+  color: var(--kid-blue);
+  transform: translateY(-2px);
+  box-shadow: 0 7px 0 rgba(57, 123, 211, 0.2);
+}
+
+.nav-btn:active,
+.nav-user:active {
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 rgba(57, 123, 211, 0.24);
+}
+
+.nav-user {
+  border-radius: 999px;
+  font-family: 'Quicksand', system-ui, sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.nav-user-avatar {
+  background: linear-gradient(145deg, #9fe7e2, #39a7b0);
+  color: #17333f;
+}
+
+.academy-content {
+  min-height: 100vh;
+  padding: 108px clamp(16px, 4vw, 56px) 42px;
+}
+
+.ancient-card,
+.mystical-card,
+.parchment-container {
+  background: var(--kid-panel);
+  border: 2px solid rgba(117, 84, 42, 0.28);
+  border-radius: 8px;
+  color: var(--kid-ink);
+  box-shadow: 0 22px 45px rgba(68, 52, 31, 0.18);
+}
+
+.ancient-card::before,
+.ancient-card::after,
+.mystical-card::before {
+  display: none;
+}
+
+.mystical-card {
+  max-width: min(92vw, 620px);
+}
+
+.mystical-card .text-gray-400,
+.mystical-card .text-gray-300,
+.mystical-card .text-gray-500 {
+  color: var(--kid-muted);
+}
+
+.shimmer-text {
+  background: linear-gradient(90deg, var(--kid-plum), var(--kid-blue), var(--kid-teal), var(--kid-plum));
+  background-size: 220% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.ancient-btn,
+.mystical-btn {
+  min-height: 50px;
+  border: 0;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #8a5dde 0%, #5f3e91 100%);
+  color: #ffffff;
+  font-family: 'Quicksand', system-ui, sans-serif;
+  font-size: 1rem;
+  font-weight: 800;
+  letter-spacing: 0;
+  text-transform: none;
+  box-shadow: 0 7px 0 #412c69, 0 14px 26px rgba(95, 62, 145, 0.24);
+}
+
+.ancient-btn:hover,
+.mystical-btn:hover {
+  background: linear-gradient(180deg, #9970ee 0%, #6946a0 100%);
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 9px 0 #412c69, 0 16px 30px rgba(95, 62, 145, 0.28);
+}
+
+.ancient-btn:active,
+.mystical-btn:active {
+  transform: translateY(4px);
+  box-shadow: 0 3px 0 #412c69, 0 8px 18px rgba(95, 62, 145, 0.2);
+}
+
+.ancient-btn-seal {
+  width: auto;
+  height: auto;
+  padding: 1rem 1.5rem;
+}
+
+.ancient-btn-seal::before {
+  content: '';
+}
+
+.mystical-input,
+.ancient-input {
+  min-height: 52px;
+  border: 2px solid rgba(95, 62, 145, 0.22);
+  border-radius: 8px;
+  background: #ffffff;
+  color: var(--kid-ink);
+  font-family: 'Quicksand', system-ui, sans-serif;
+  font-size: 1.05rem;
+  box-shadow: inset 0 2px 0 rgba(95, 62, 145, 0.08);
+}
+
+.mystical-input::placeholder,
+.ancient-input::placeholder {
+  color: rgba(47, 37, 69, 0.45);
+}
+
+.mystical-input:focus,
+.ancient-input:focus {
+  border-color: var(--kid-teal);
+  box-shadow: 0 0 0 4px rgba(20, 140, 140, 0.16);
+}
+
+.lesson-shell {
+  position: relative;
+  z-index: 1;
+  width: min(1180px, 100%);
+  margin: 0 auto;
+}
+
+.lesson-topbar {
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+
+.lesson-level,
+.lesson-stat {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 72px;
+  padding: 12px 16px;
+  background: rgba(255, 252, 239, 0.9);
+  border: 2px solid rgba(117, 84, 42, 0.22);
+  border-radius: 8px;
+  box-shadow: 0 12px 24px rgba(68, 52, 31, 0.12);
+}
+
+.lesson-level svg,
+.lesson-stat svg {
+  color: var(--kid-blue);
+}
+
+.lesson-level span,
+.lesson-stat span {
+  display: block;
+  color: var(--kid-muted);
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.lesson-level strong,
+.lesson-stat strong {
+  display: block;
+  color: var(--kid-ink);
+  font-size: 1.85rem;
+  line-height: 1;
+}
+
+.lesson-stats {
+  display: flex;
+  gap: 12px;
+}
+
+.lesson-progress {
+  margin-bottom: 16px;
+}
+
+.progress-caption {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 7px;
+  color: var(--kid-muted);
+  font-size: 0.88rem;
+  font-weight: 800;
+}
+
+.lesson-board {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 250px;
+  gap: 20px;
+  padding: clamp(18px, 3vw, 34px);
+  background:
+    linear-gradient(180deg, rgba(255, 252, 239, 0.96), rgba(255, 243, 202, 0.95)),
+    linear-gradient(90deg, rgba(57, 123, 211, 0.08), rgba(20, 140, 140, 0.08));
+  border: 3px solid rgba(117, 84, 42, 0.34);
+  border-radius: 8px;
+  box-shadow: 0 24px 54px rgba(75, 52, 25, 0.22);
+  overflow: hidden;
+}
+
+.word-stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 260px;
+  padding: clamp(14px, 2vw, 28px);
+}
+
+.hint-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 42px;
+  margin-bottom: 18px;
+  color: var(--kid-plum);
+  font-size: clamp(1.1rem, 2vw, 1.45rem);
+  font-weight: 800;
+  text-align: center;
+}
+
+.hint-row p {
+  margin: 0;
+}
+
+.voice-icon {
+  color: var(--kid-gold-dark);
+  animation: pulse 1.2s ease-in-out infinite;
+}
+
+.word-card {
+  display: flex;
+  justify-content: center;
+  gap: clamp(6px, 1vw, 13px);
+  width: min(100%, 650px);
+  padding: clamp(18px, 3vw, 30px);
+  background: #ffffff;
+  border: 3px solid rgba(95, 62, 145, 0.18);
+  border-radius: 8px;
+  box-shadow: inset 0 -5px 0 rgba(57, 123, 211, 0.08), 0 16px 30px rgba(95, 62, 145, 0.13);
+  font-family: 'Quicksand', system-ui, sans-serif;
+  font-size: clamp(3.2rem, 7vw, 5.4rem);
+  font-weight: 800;
+  line-height: 1;
+}
+
+.word-card > span {
+  position: relative;
+  min-width: 0.6em;
+  text-align: center;
+}
+
+.letter-pending {
+  color: rgba(47, 37, 69, 0.22);
+}
+
+.letter-correct {
+  color: var(--kid-green);
+  text-shadow: 0 3px 0 rgba(31, 157, 114, 0.12);
+}
+
+.letter-active {
+  color: var(--kid-gold-dark);
+  animation: activeLetterBounce 0.78s ease-in-out infinite;
+  text-shadow: 0 0 16px rgba(247, 189, 40, 0.38);
+}
+
+.helper-strip {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 18px;
+  padding: 10px 16px;
+  border-radius: 999px;
+  background: rgba(20, 140, 140, 0.1);
+  color: var(--kid-teal);
+  font-weight: 800;
+}
+
+.helper-strip strong {
+  min-width: 42px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: #ffffff;
+  color: var(--kid-ink);
+  box-shadow: 0 4px 0 rgba(20, 140, 140, 0.18);
+  text-align: center;
+}
+
+.coach-panel {
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+  padding: 20px;
+  background: linear-gradient(180deg, rgba(217, 243, 255, 0.9), rgba(255, 255, 255, 0.86));
+  border: 2px solid rgba(57, 123, 211, 0.18);
+  border-radius: 8px;
+  color: var(--kid-muted);
+  font-weight: 700;
+}
+
+.coach-orb {
+  width: 54px;
+  height: 54px;
+  display: grid;
+  place-items: center;
+  border-radius: 8px;
+  background: #ffffff;
+  box-shadow: 0 6px 0 rgba(57, 123, 211, 0.14);
+  font-size: 1.65rem;
+}
+
+.coach-title {
+  margin: 0;
+  color: var(--kid-ink);
+  font-size: 1.22rem;
+  font-weight: 800;
+}
+
+.coach-panel p {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.keyboard-zone {
+  grid-column: 1 / -1;
+}
+
+.magic-keyboard {
+  width: min(760px, 100%);
+  margin: 0 auto;
+  padding: clamp(12px, 2vw, 18px);
+  background: rgba(95, 62, 145, 0.12);
+  border: 2px solid rgba(95, 62, 145, 0.18);
+  border-radius: 8px;
+  box-shadow: inset 0 3px 0 rgba(255, 255, 255, 0.42);
+}
+
+.magic-keyboard > .flex {
+  width: 100%;
+  justify-content: center;
+}
+
+.magic-key {
+  width: clamp(34px, 5.2vw, 58px) !important;
+  height: clamp(38px, 5.4vw, 58px) !important;
+  border: 2px solid rgba(47, 37, 69, 0.15);
+  border-radius: 8px;
+  background: linear-gradient(180deg, #ffffff, #f0f7ff);
+  color: var(--kid-ink);
+  font-family: 'Quicksand', system-ui, sans-serif;
+  font-size: clamp(0.9rem, 1.8vw, 1.18rem);
+  font-weight: 800;
+  text-transform: uppercase;
+  box-shadow: 0 6px 0 rgba(47, 37, 69, 0.18), 0 10px 18px rgba(47, 37, 69, 0.12);
+}
+
+.magic-key.active {
+  transform: translateY(5px) scale(1.05);
+  background: linear-gradient(180deg, #ffe37a, #f7bd28);
+  border-color: rgba(183, 120, 19, 0.48);
+  color: #3f2a0a;
+  box-shadow: 0 1px 0 rgba(47, 37, 69, 0.18), 0 0 0 5px rgba(247, 189, 40, 0.18);
+}
+
+.magic-key.space-bar {
+  width: min(360px, 72vw) !important;
+  height: 50px !important;
+  letter-spacing: 0;
+  font-size: 0.92rem;
+}
+
+.lesson-footer {
+  margin: 16px 0 0;
+  color: rgba(47, 37, 69, 0.72);
+  font-size: 0.98rem;
+  font-weight: 800;
+  text-align: center;
+}
+
+.smoke-wrap {
+  position: absolute;
+  inset: 50% auto auto 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.particle {
+  background: var(--kid-gold);
+}
+
+@keyframes gentleBob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
+}
+
+@keyframes activeLetterBounce {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-5px) scale(1.06); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+@media (max-width: 920px) {
+  .lesson-board {
+    grid-template-columns: 1fr;
+  }
+
+  .coach-panel {
+    order: 3;
+  }
+
+  .keyboard-zone {
+    order: 2;
+  }
+}
+
+@media (max-width: 767px) {
+  .academy-nav {
+    min-height: 100px;
+    padding: 10px 12px;
+  }
+
+  .academy-content {
+    padding: 122px 12px 26px;
+  }
+
+  .lesson-topbar {
+    flex-direction: column;
+  }
+
+  .lesson-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .lesson-level,
+  .lesson-stat {
+    min-height: 62px;
+    padding: 10px 12px;
+  }
+
+  .lesson-level strong,
+  .lesson-stat strong {
+    font-size: 1.45rem;
+  }
+
+  .word-stage {
+    min-height: 210px;
+    padding: 10px 4px 16px;
+  }
+
+  .word-card {
+    padding: 16px 8px;
+    gap: 4px;
+    font-size: clamp(2.55rem, 13vw, 3.4rem);
+  }
+
+  .hint-row {
+    font-size: 1rem;
+  }
+
+  .coach-panel {
+    padding: 14px;
+    font-size: 0.9rem;
+  }
+
+  .magic-keyboard {
+    padding: 8px 6px;
+  }
+
+  .magic-keyboard > .flex {
+    gap: 0.28rem;
+  }
+
+  .magic-key {
+    width: 28px !important;
+    height: 34px !important;
+    font-size: 0.76rem;
+    border-radius: 7px;
+    box-shadow: 0 4px 0 rgba(47, 37, 69, 0.18), 0 7px 12px rgba(47, 37, 69, 0.1);
+  }
+
+  .magic-key.space-bar {
+    width: min(230px, 72vw) !important;
+    height: 34px !important;
+  }
+}
+
+@media (min-width: 921px) {
+  .academy-nav {
+    height: 58px;
+  }
+
+  .nav-logo-icon {
+    width: 42px;
+    height: 42px;
+    flex-basis: 42px;
+  }
+
+  .nav-btn {
+    width: 42px;
+    height: 42px;
+    flex-basis: 42px;
+  }
+
+  .academy-content {
+    padding-top: 72px;
+    padding-bottom: 24px;
+  }
+
+  .lesson-topbar {
+    align-items: center;
+    margin-bottom: 8px;
+  }
+
+  .lesson-level,
+  .lesson-stat {
+    min-height: 50px;
+    padding: 7px 12px;
+  }
+
+  .lesson-level strong,
+  .lesson-stat strong {
+    font-size: 1.35rem;
+  }
+
+  .lesson-progress {
+    margin-bottom: 8px;
+  }
+
+  .lesson-board {
+    gap: 16px;
+    padding: 14px 18px;
+  }
+
+  .word-stage {
+    min-height: 162px;
+    padding: 4px 18px 8px;
+  }
+
+  .hint-row {
+    min-height: 32px;
+    margin-bottom: 8px;
+  }
+
+  .word-card {
+    width: min(100%, 640px);
+    padding: 12px 20px;
+    font-size: clamp(2.75rem, 5vw, 3.65rem);
+  }
+
+  .helper-strip {
+    margin-top: 8px;
+  }
+
+  .coach-panel {
+    padding: 14px 18px;
+  }
+
+  .magic-keyboard {
+    padding: 10px 12px;
+  }
+
+  .magic-key {
+    width: clamp(36px, 4vw, 48px) !important;
+    height: clamp(36px, 4vw, 48px) !important;
+  }
+
+  .magic-key.space-bar {
+    height: 38px !important;
+  }
+
+  .lesson-footer {
+    margin-top: 10px;
+  }
+}

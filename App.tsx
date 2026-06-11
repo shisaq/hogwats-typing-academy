@@ -141,7 +141,7 @@ const App: React.FC = () => {
       <nav className="academy-nav">
         <div className="nav-logo">
           <div className="nav-logo-icon">🧙</div>
-          <span>Hogwats Typing Academy</span>
+          <span>Hogwarts Typing Academy</span>
         </div>
 
         <div className="nav-actions">
