@@ -10,6 +10,7 @@ export interface GameState {
   house: House;
   level: number;
   completedLevel?: number;
+  isReview?: boolean;
   score: number;
   wpm: number;
   accuracy: number;

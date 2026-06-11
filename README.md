@@ -25,6 +25,9 @@ The game saves progress locally in the browser, so each player can come back and
 - Sixteen lessons across the seven-year story arc, with 128 curated words
 - Per-word practice stats for practiced and mastered vocabulary
 - Spellbook view for browsing lessons, words, hints, and mastery status
+- Spellbook search and filters by mastery status or word category
+- Year completion certificate after finishing the last lesson in a school year
+- Weak-word review mode for practicing words that need more work
 - Graduation state after the final challenge
 - Word hints and voice-style feedback
 - Score, WPM, accuracy, and streak tracking

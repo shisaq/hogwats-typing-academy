@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { GameState, House, GameStatus, WordPracticeStats } from './types';
+import { GameState, House, GameStatus, WordChallenge, WordPracticeStats } from './types';
 import SortingHat from './components/SortingHat';
 import TypingGame from './components/TypingGame';
 import UserManager from './components/UserManager';
 import Spellbook from './components/Spellbook';
 import * as storageService from './services/storageService';
-import { CurriculumStats, getCurriculumStats, getLevelInfo, TOTAL_LEVELS } from './services/gameContentService';
+import { CurriculumStats, getCurriculumStats, getLevelInfo, getWeakPracticeChallenges, getYearCompletionInfo, TOTAL_LEVELS } from './services/gameContentService';
 import { soundEffects } from './services/soundEffects';
-import { BookOpen, Volume2, VolumeX, RotateCcw, LogOut, Users, Sparkles } from 'lucide-react';
+import { BookOpen, Volume2, VolumeX, RotateCcw, LogOut, Users, Sparkles, Wand2 } from 'lucide-react';
 
 const App: React.FC = () => {
   const [house, setHouse] = useState<House>(House.Unsorted);
@@ -21,6 +21,7 @@ const App: React.FC = () => {
   const [wordStats, setWordStats] = useState<Record<string, WordPracticeStats>>({});
   const [graduated, setGraduated] = useState<boolean>(false);
   const [showSpellbook, setShowSpellbook] = useState(false);
+  const [reviewChallenges, setReviewChallenges] = useState<WordChallenge[] | null>(null);
 
   const loadUserData = () => {
     const username = storageService.getCurrentUser();
@@ -75,6 +76,18 @@ const App: React.FC = () => {
     soundEffects.playButtonClick();
     soundEffects.playLevelStart();
     setShowSpellbook(false);
+    setReviewChallenges(null);
+    setStatus(GameStatus.Playing);
+  };
+
+  const startWeakPractice = () => {
+    const challenges = getWeakPracticeChallenges(wordStats);
+    if (challenges.length === 0) return;
+
+    soundEffects.playButtonClick();
+    soundEffects.playLevelStart();
+    setShowSpellbook(false);
+    setReviewChallenges(challenges);
     setStatus(GameStatus.Playing);
   };
 
@@ -87,7 +100,9 @@ const App: React.FC = () => {
 
   const handleGameEnd = (finalState: GameState) => {
     setGameState(finalState);
-    if (finalState.isGraduated) {
+    if (finalState.isReview) {
+      // Review sessions update word stats but do not unlock curriculum lessons.
+    } else if (finalState.isGraduated) {
       setMaxLevel(TOTAL_LEVELS);
       setGraduated(true);
       storageService.saveProgress({ maxLevel: TOTAL_LEVELS, graduated: true });
@@ -117,6 +132,7 @@ const App: React.FC = () => {
       setWordStats({});
       setGraduated(false);
       setShowSpellbook(false);
+      setReviewChallenges(null);
       setGameState(null);
       setStatus(GameStatus.Menu);
       soundEffects.playNotification();
@@ -145,6 +161,7 @@ const App: React.FC = () => {
     setWordStats({});
     setGraduated(false);
     setShowSpellbook(false);
+    setReviewChallenges(null);
     setStatus(GameStatus.Menu);
     setShowUserManager(true);
   };
@@ -160,6 +177,8 @@ const App: React.FC = () => {
   };
 
   const currentLesson = getLevelInfo(maxLevel);
+  const weakPracticeCount = getWeakPracticeChallenges(wordStats).length;
+  const completedYear = gameState && !gameState.isReview ? getYearCompletionInfo(gameState.completedLevel) : null;
 
   return (
     <div className="app-container">
@@ -233,6 +252,7 @@ const App: React.FC = () => {
               loadUserData();
               setShowUserManager(false);
               setShowSpellbook(false);
+              setReviewChallenges(null);
             }}
           />
         ) : (
@@ -297,6 +317,16 @@ const App: React.FC = () => {
                 </button>
 
                 <button
+                  onClick={startWeakPractice}
+                  disabled={weakPracticeCount === 0}
+                  className="ancient-btn w-full"
+                  title={weakPracticeCount === 0 ? 'Practice a lesson first to unlock review' : 'Practice words that need more work'}
+                >
+                  <Wand2 size={18} />
+                  <span>{weakPracticeCount === 0 ? 'No Review Words Yet' : `Practice Weak Words (${weakPracticeCount})`}</span>
+                </button>
+
+                <button
                   onClick={() => {
                     soundEffects.playButtonClick();
                     setShowSpellbook(true);
@@ -314,20 +344,34 @@ const App: React.FC = () => {
                 house={house}
                 onEndGame={handleGameEnd}
                 initialLevel={gameState ? gameState.level : maxLevel}
+                reviewChallenges={reviewChallenges || undefined}
+                lessonLabel={reviewChallenges ? 'Review Practice' : undefined}
               />
             )}
 
             {status === GameStatus.Results && gameState && (
               <div className="ancient-card max-w-lg mx-auto p-10 text-center space-y-6 float-animation">
                 <h2 className="text-4xl font-display text-ink-brown mb-4">
-                  {gameState.isGraduated ? 'Academy Complete!' : 'Class Dismissed!'}
+                  {gameState.isReview ? 'Practice Complete!' : gameState.isGraduated ? 'Academy Complete!' : 'Class Dismissed!'}
                 </h2>
 
                 <p className="text-ink-brown/70">
-                  {gameState.isGraduated
+                  {gameState.isReview
+                    ? 'Your review words have been updated in the Spellbook.'
+                    : gameState.isGraduated
                     ? 'You completed the final challenge. Keep practicing to master every word.'
                     : `Next lesson unlocked: Year ${getLevelInfo(gameState.level).year} · ${getLevelInfo(gameState.level).title}`}
                 </p>
+
+                {completedYear && (
+                  <div className="p-6 rounded bg-gradient-to-br from-purple-50 to-amber-100/60 border-2 border-purple-800/20">
+                    <p className="text-xs uppercase tracking-wide text-purple-800/60 mb-2 font-heading">Certificate Earned</p>
+                    <p className="font-display text-2xl text-purple-900">Year {completedYear.year} Complete</p>
+                    <p className="mt-2 text-sm text-purple-900/65">
+                      {completedYear.lessonCount} lessons finished with magical precision.
+                    </p>
+                  </div>
+                )}
 
                 <div className="grid grid-cols-2 gap-4">
                   <div className="p-6 rounded bg-gradient-to-br from-green-50 to-emerald-100/50 border-2 border-green-800/20">
@@ -352,7 +396,10 @@ const App: React.FC = () => {
 
                 <div className="flex gap-4">
                   <button
-                    onClick={() => setStatus(GameStatus.Menu)}
+                    onClick={() => {
+                      setReviewChallenges(null);
+                      setStatus(GameStatus.Menu);
+                    }}
                     className="ancient-btn flex-1"
                   >
                     Return Home
@@ -361,7 +408,7 @@ const App: React.FC = () => {
                     onClick={restartGame}
                     className="ancient-btn ancient-btn-seal flex-1"
                   >
-                    {gameState.isGraduated ? 'Practice Again' : 'Next Level'}
+                    {gameState.isReview || gameState.isGraduated ? 'Practice Again' : 'Next Level'}
                   </button>
                 </div>
               </div>

@@ -11,9 +11,11 @@ interface TypingGameProps {
   house: House;
   onEndGame: (finalState: GameState) => void;
   initialLevel: number;
+  reviewChallenges?: WordChallenge[];
+  lessonLabel?: string;
 }
 
-const TypingGame: React.FC<TypingGameProps> = ({ house, onEndGame, initialLevel }) => {
+const TypingGame: React.FC<TypingGameProps> = ({ house, onEndGame, initialLevel, reviewChallenges, lessonLabel }) => {
   const [challenges, setChallenges] = useState<WordChallenge[]>([]);
   const [currentChallengeIndex, setCurrentChallengeIndex] = useState(0);
   const [userInput, setUserInput] = useState('');
@@ -38,7 +40,9 @@ const TypingGame: React.FC<TypingGameProps> = ({ house, onEndGame, initialLevel 
 
   const loadLevel = useCallback(async () => {
     setLoading(true);
-    const words = await generateChallenges(gameState.level);
+    const words = reviewChallenges && reviewChallenges.length > 0
+      ? reviewChallenges.slice().sort(() => Math.random() - 0.5)
+      : await generateChallenges(gameState.level);
     setChallenges(words);
     setLoading(false);
     setUserInput('');
@@ -50,7 +54,7 @@ const TypingGame: React.FC<TypingGameProps> = ({ house, onEndGame, initialLevel 
     
     // Auto focus
     setTimeout(() => inputRef.current?.focus(), 100);
-  }, [gameState.level]);
+  }, [gameState.level, reviewChallenges]);
 
   useEffect(() => {
     loadLevel();
@@ -186,12 +190,14 @@ const TypingGame: React.FC<TypingGameProps> = ({ house, onEndGame, initialLevel 
     const wpm = Math.round((correctCharsRef.current / 5) / time);
     const totalKeystrokes = correctCharsRef.current + errorsRef.current;
     const accuracy = totalKeystrokes > 0 ? Math.round((correctCharsRef.current / totalKeystrokes) * 100) : 100;
-    const isGraduated = gameState.level >= TOTAL_LEVELS;
+    const isReview = !!reviewChallenges?.length;
+    const isGraduated = !isReview && gameState.level >= TOTAL_LEVELS;
 
     const finalState = {
         ...gameState,
         completedLevel: gameState.level,
-        level: isGraduated ? TOTAL_LEVELS : gameState.level + 1,
+        isReview,
+        level: isReview ? gameState.level : isGraduated ? TOTAL_LEVELS : gameState.level + 1,
         score,
         streak,
         wpm,
@@ -245,7 +251,7 @@ const TypingGame: React.FC<TypingGameProps> = ({ house, onEndGame, initialLevel 
         <div className="lesson-level">
           <BookOpen size={22} />
           <div>
-            <span>Lesson Level</span>
+            <span>{lessonLabel || 'Lesson Level'}</span>
             <strong>{gameState.level}</strong>
           </div>
         </div>

@@ -381,6 +381,12 @@ export interface CurriculumLesson {
   words: WordChallenge[];
 }
 
+export interface YearCompletionInfo {
+  year: number;
+  completedLevel: number;
+  lessonCount: number;
+}
+
 const toChallenge = (lesson: LessonDefinition, entry: LessonWord): WordChallenge => ({
   ...entry,
   id: `year-${lesson.year}-level-${lesson.level}-${entry.word}`,
@@ -408,6 +414,24 @@ export const getCurriculumLessons = (): CurriculumLesson[] =>
     words: lesson.words.map((word) => toChallenge(lesson, word))
   }));
 
+export const getYearCompletionInfo = (completedLevel?: number): YearCompletionInfo | null => {
+  if (!completedLevel) return null;
+
+  const completedLesson = curriculum.find((lesson) => lesson.level === completedLevel);
+  if (!completedLesson) return null;
+
+  const yearLessons = curriculum.filter((lesson) => lesson.year === completedLesson.year);
+  const lastLesson = yearLessons[yearLessons.length - 1];
+
+  if (lastLesson.level !== completedLevel) return null;
+
+  return {
+    year: completedLesson.year,
+    completedLevel,
+    lessonCount: yearLessons.length
+  };
+};
+
 export const getCurriculumStats = (wordStats: Record<string, WordPracticeStats> = {}): CurriculumStats => {
   const allWordIds = new Set(curriculum.flatMap((lesson) => lesson.words.map((word) => toChallenge(lesson, word).id)));
   let practicedWords = 0;
@@ -428,6 +452,26 @@ export const getCurriculumStats = (wordStats: Record<string, WordPracticeStats> 
     practicedPercent: totalWords > 0 ? Math.round((practicedWords / totalWords) * 100) : 0,
     masteredPercent: totalWords > 0 ? Math.round((masteredWords / totalWords) * 100) : 0
   };
+};
+
+export const getWeakPracticeChallenges = (wordStats: Record<string, WordPracticeStats> = {}): WordChallenge[] => {
+  const challenges = getCurriculumLessons().flatMap((lesson) => lesson.words);
+  const challengeById = new Map(challenges.map((challenge) => [challenge.id, challenge]));
+  const practicedEntries = Object.entries(wordStats)
+    .filter(([wordId, stats]) => challengeById.has(wordId) && stats.completedCount > 0 && stats.mastery !== 'mastered');
+
+  const weakEntries = practicedEntries
+    .filter(([, stats]) => stats.errorCount > 0)
+    .sort(([, a], [, b]) => b.errorCount - a.errorCount || a.bestAccuracy - b.bestAccuracy);
+
+  const reviewEntries = weakEntries.length > 0
+    ? weakEntries
+    : practicedEntries.sort(([, a], [, b]) => a.completedCount - b.completedCount || a.bestAccuracy - b.bestAccuracy);
+
+  return reviewEntries
+    .slice(0, 10)
+    .map(([wordId]) => challengeById.get(wordId))
+    .filter((challenge): challenge is WordChallenge => !!challenge);
 };
 
 /**
